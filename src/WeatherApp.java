@@ -6,22 +6,21 @@ public class WeatherApp {
     public static void main(String[] args) throws IOException {
 
         List<WeatherInfo> citiesWeatherInfo = new ArrayList<>();
-        FileReader fr = new FileReader("cities.txt");
-        BufferedReader br = new BufferedReader(fr);
+        FileReader fileReader = new FileReader("cities.txt");
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
         WeatherApi weatherApi = new WeatherApi();
         String city = null;
-        while ((city = br.readLine()) != null) {
+
+        FileWriter fw = new FileWriter("weatherInfo.txt");
+        BufferedWriter bufferedWriter = new BufferedWriter(fw);
+        while ((city = bufferedReader.readLine()) != null) {
             WeatherInfo wi = new WeatherInfo(city, weatherApi.getDescription(city), weatherApi.getTemperature(city));
             citiesWeatherInfo.add(wi);
+            bufferedWriter.write("\n" + city + ";" + weatherApi.getTemperature(city) + ";" + weatherApi.getDescription(city));
         }
-        br.close();
+        bufferedReader.close();
+        bufferedWriter.close();
 
         System.out.println(citiesWeatherInfo);
-
-        FileOutputStream fos = new FileOutputStream("weatherInfo.csv");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        for (Object info : citiesWeatherInfo) {
-            oos.writeObject(info);
-        }
     }
 }

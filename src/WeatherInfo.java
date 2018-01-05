@@ -1,6 +1,5 @@
-import java.io.Serializable;
 
-public class WeatherInfo implements Serializable {
+public class WeatherInfo {
     private String city;
     private String description;
     private int temperature;
